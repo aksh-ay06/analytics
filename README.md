@@ -48,7 +48,7 @@ sleeper_analytics/
 
 ```bash
 git clone https://github.com/aksh-ay06/analytics.git
-cd sleeper_analytics
+cd analytics
 
 # Install dependencies
 uv sync

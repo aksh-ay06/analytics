@@ -1,0 +1,11 @@
+[project]
+name = "sleeper-analytics"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.10"
+dependencies = [
+    "duckdb>=1.4.4",
+    "nfl-data-py>=0.3.3",
+    "pandas>=1.5.3",
+    "pyarrow>=23.0.1",
+]

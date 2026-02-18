@@ -3,7 +3,7 @@
 A full-stack data analytics portfolio project modelled on the responsibilities of a
 Product / Data Analyst role at a fantasy-sports platform.
 
-It covers the complete analytics lifecycle: **data pipeline → metrics → A/B testing → interactive dashboard**.
+It covers the complete analytics lifecycle: **data pipeline → metrics → A/B testing → EDA → interactive dashboard**.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for the full system diagram.
 
@@ -24,6 +24,9 @@ sleeper_analytics/
 ├── analysis/
 │   ├── simulate.py               # Synthetic A/B experiment data generator
 │   └── ab_test.py                # Statistical tests + full report
+│
+├── notebooks/
+│   └── eda.ipynb                 # Exploratory data analysis (8 sections, outputs included)
 │
 ├── dashboard/
 │   ├── data.py                   # Cached DuckDB query layer
@@ -58,9 +61,12 @@ uv run python -m analysis.ab_test
 
 # Launch the dashboard
 uv run streamlit run dashboard/Home.py
+
+# Open the EDA notebook
+uv run jupyter lab
 ```
 
-Open **http://localhost:8501** in your browser.
+Open **http://localhost:8501** for the dashboard or **http://localhost:8888** for JupyterLab.
 
 ---
 
@@ -133,6 +139,21 @@ Computes derived analytics on top of the fact tables.
 
 ---
 
+## EDA notebook (`notebooks/eda.ipynb`)
+
+| Section | Analysis |
+|---|---|
+| 1 | Data overview — row counts for all 11 tables |
+| 2 | Weekly PPR distributions — violin + density by position |
+| 3 | Top 8 players per position — horizontal bar charts |
+| 4 | Consistency vs output — CV vs avg PPR scatter, coloured by boom rate |
+| 5 | Usage → production — snap share & target share correlation (with r value) |
+| 6 | Week-by-week + season-over-season scoring trends |
+| 7 | Position scarcity — avg pts by tier (all / startable / ceiling) |
+| 8 | A/B experiment preview — lift chart + segment breakdown |
+
+---
+
 ## Dashboard pages
 
 | Page | Description |
@@ -152,5 +173,6 @@ Computes derived analytics on top of the fact tables.
 | Analytical store | DuckDB |
 | Data manipulation | pandas |
 | Statistical analysis | scipy |
+| EDA | JupyterLab + Matplotlib + Seaborn |
 | Dashboard | Streamlit + Plotly |
 | Dependency management | uv |

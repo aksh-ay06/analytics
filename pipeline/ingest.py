@@ -28,7 +28,7 @@ def ingest_weekly_stats(con: duckdb.DuckDBPyConnection) -> None:
 
 def ingest_rosters(con: duckdb.DuckDBPyConnection) -> None:
     print(f"Ingesting roster data for seasons {SEASONS}...")
-    df = nfl.import_rosters(SEASONS)
+    df = nfl.import_weekly_rosters(SEASONS)
     df.columns = df.columns.str.lower()
     con.execute("DROP TABLE IF EXISTS raw_rosters")
     con.execute("CREATE TABLE raw_rosters AS SELECT * FROM df")

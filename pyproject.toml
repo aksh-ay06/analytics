@@ -8,4 +8,5 @@ dependencies = [
     "nfl-data-py>=0.3.3",
     "pandas>=1.5.3",
     "pyarrow>=23.0.1",
+    "scipy>=1.15.3",
 ]

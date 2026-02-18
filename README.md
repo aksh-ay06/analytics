@@ -47,7 +47,7 @@ sleeper_analytics/
 **Requirements:** Python ≥ 3.10, [uv](https://docs.astral.sh/uv/)
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/aksh-ay06/analytics.git
 cd sleeper_analytics
 
 # Install dependencies

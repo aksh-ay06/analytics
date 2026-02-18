@@ -75,7 +75,7 @@ def load_player_list(position: str | None = None):
 @st.cache_data
 def load_player_weekly(player_id: str, seasons: list[int] | None = None):
     seasons_sql = (
-        f"AND season IN ({','.join(map(str, seasons))})" if seasons else ""
+        f"AND w.season IN ({','.join(map(str, seasons))})" if seasons else ""
     )
     return get_conn().execute(f"""
         SELECT w.*, b.avg_pts_startable AS baseline_ppr
@@ -86,7 +86,7 @@ def load_player_weekly(player_id: str, seasons: list[int] | None = None):
            AND b.week     = w.week
         WHERE w.player_id = '{player_id}'
         {seasons_sql}
-        ORDER BY season, week
+        ORDER BY w.season, w.week
     """).df()
 
 

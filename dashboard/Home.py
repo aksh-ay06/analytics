@@ -4,13 +4,39 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
 import plotly.express as px
-from dashboard.data import load_kpis, load_top_players, POSITION_COLORS
+from dashboard.data import DB_PATH, load_kpis, load_top_players, POSITION_COLORS
 
 st.set_page_config(
     page_title="Sleeper Analytics",
     page_icon="🏈",
     layout="wide",
 )
+
+# ── DB bootstrap (runs once on cold start, e.g. Streamlit Cloud) ──────────
+if not DB_PATH.exists():
+    st.info("First run — building the database. This takes about 2 minutes.")
+    progress = st.progress(0, text="Starting pipeline...")
+
+    from pipeline.ingest import run_ingestion
+    from pipeline.transform import run_transforms
+    from pipeline.metrics import run_metrics
+    from analysis.simulate import run_simulation
+
+    progress.progress(10, text="Ingesting NFL data (seasons 2020–2024)...")
+    con = run_ingestion()
+
+    progress.progress(50, text="Building dimension and fact tables...")
+    run_transforms(con)
+
+    progress.progress(75, text="Computing metrics...")
+    run_metrics(con)
+
+    progress.progress(90, text="Simulating A/B experiment...")
+    run_simulation(con)
+    con.close()
+
+    progress.progress(100, text="Done!")
+    st.rerun()
 
 st.title("🏈 Sleeper Fantasy Analytics")
 st.caption(

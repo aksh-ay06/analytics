@@ -156,7 +156,9 @@ def build_metrics_player_season(con: duckdb.DuckDBPyConnection) -> None:
                 player_name,
                 position,
                 season,
+                week,
                 team,
+                fantasy_points,
                 fantasy_points_ppr,
                 CASE {boom_cases} END AS is_boom,
                 CASE {bust_cases} END AS is_bust
@@ -168,10 +170,7 @@ def build_metrics_player_season(con: duckdb.DuckDBPyConnection) -> None:
                 player_name,
                 position,
                 season,
-                -- Use last team of the season
-                LAST(team ORDER BY (SELECT week FROM metrics_player_weekly w
-                    WHERE w.player_id = g.player_id AND w.season = g.season
-                    LIMIT 1))                                            AS team,
+                LAST(team ORDER BY week)                                AS team,
                 COUNT(*)                                                AS games_played,
                 ROUND(SUM(fantasy_points),     2)                      AS total_fantasy_pts,
                 ROUND(SUM(fantasy_points_ppr), 2)                      AS total_fantasy_pts_ppr,
